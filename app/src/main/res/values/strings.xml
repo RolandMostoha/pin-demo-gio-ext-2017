@@ -1,0 +1,4 @@
+<resources>
+	<string name="app_name">PIN Demo</string>
+	<string name="action_settings">Settings</string>
+</resources>
