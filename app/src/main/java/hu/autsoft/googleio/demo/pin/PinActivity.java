@@ -1,17 +1,20 @@
 package hu.autsoft.googleio.demo.pin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-
 import hu.autsoft.googleio.demo.pin.main.HomeActivity;
 
 public class PinActivity extends AppCompatActivity {
+
+	public static final String PREFERENCE_KEY_PIN = "PREFERENCE_KEY_PIN";
 
 	private Toolbar toolbar;
 	private TextInputLayout inputLayoutPin;
@@ -46,6 +49,7 @@ public class PinActivity extends AppCompatActivity {
 
 	private void submitPin() {
 		if (isPinValid()) {
+			savePin();
 			navigateToMainActivity();
 		}
 	}
@@ -60,6 +64,13 @@ public class PinActivity extends AppCompatActivity {
 			inputLayoutPin.setError(getString(R.string.pin_error_length));
 		}
 		return isPinValid;
+	}
+
+	private void savePin() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		preferences.edit()
+				.putString(PREFERENCE_KEY_PIN, inputPin.getText().toString())
+				.apply();
 	}
 
 	private void navigateToMainActivity() {

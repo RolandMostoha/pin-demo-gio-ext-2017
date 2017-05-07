@@ -1,30 +1,30 @@
 package hu.autsoft.googleio.demo.pin;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
 import android.view.View;
-import hu.autsoft.googleio.demo.pin.*;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -32,6 +32,20 @@ public class PinInstrumentedTest {
 
 	@Rule
 	public ActivityTestRule<PinActivity> mActivityRule = new ActivityTestRule<>(PinActivity.class);
+
+	private SharedPreferences preferences;
+
+	@Before
+	public void setUp() throws Exception {
+		Context context = getInstrumentation().getTargetContext();
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		preferences.edit().clear().apply();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		preferences.edit().clear().apply();
+	}
 
 	@Test
 	public void givenEmptyPin_whenWeSubmit_thenEmptyErrorMessageShouldShown() throws Exception {
@@ -87,6 +101,20 @@ public class PinInstrumentedTest {
 		// Then
 		onView(ViewMatchers.withText(R.string.home_title))
 				.check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void givenValidPin_whenWeSubmit_thenPinIsStoredInPreferences() throws Exception {
+		// Given
+		String pin = "123456";
+		onView(ViewMatchers.withId(R.id.input_pin))
+				.perform(typeText(pin))
+				.perform(closeSoftKeyboard());
+		// When
+		onView(ViewMatchers.withId(R.id.btn_submit))
+				.perform(click());
+		// Then
+		assertEquals(pin, preferences.getString(PinActivity.PREFERENCE_KEY_PIN, null));
 	}
 
 	private static Matcher<View> withError(final String expected) {
