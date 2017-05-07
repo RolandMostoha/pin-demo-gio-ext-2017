@@ -3,14 +3,13 @@ package hu.autsoft.googleio.demo.pin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
-import hu.autsoft.googleio.demo.pin.main.MainActivity;
+import hu.autsoft.googleio.demo.pin.main.HomeActivity;
 
 public class PinActivity extends AppCompatActivity {
 
@@ -55,16 +54,16 @@ public class PinActivity extends AppCompatActivity {
 		boolean isPinValid = true;
 		if (inputPin.getText().toString() == null || inputPin.getText().toString().isEmpty()) {
 			isPinValid = false;
-			inputLayoutPin.setError("Cannot be empty");
+			inputLayoutPin.setError(getString(R.string.pin_error_empty));
 		} else if (inputPin.getText().toString().length() != 6) {
 			isPinValid = false;
-			inputLayoutPin.setError("PIN length should be 6 character");
+			inputLayoutPin.setError(getString(R.string.pin_error_length));
 		}
 		return isPinValid;
 	}
 
 	private void navigateToMainActivity() {
-		startActivity(new Intent(this, MainActivity.class));
+		startActivity(new Intent(this, HomeActivity.class));
 	}
 
 }

@@ -1,4 +1,9 @@
 <resources>
 	<string name="app_name">PIN Demo</string>
 	<string name="action_settings">Settings</string>
+
+    <string name="pin_error_empty">Cannot be empty</string>
+	<string name="pin_error_length">PIN length should be 6 character</string>
+
+    <string name="home_title">Home</string>
 </resources>
