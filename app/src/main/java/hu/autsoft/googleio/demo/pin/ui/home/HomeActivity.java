@@ -1,4 +1,4 @@
-package hu.autsoft.googleio.demo.pin.main;
+package hu.autsoft.googleio.demo.pin.ui.home;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

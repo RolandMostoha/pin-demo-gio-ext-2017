@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import hu.autsoft.googleio.demo.pin.ui.pin.PinActivity;
+
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -101,6 +103,20 @@ public class PinInstrumentedTest {
 		// Then
 		onView(ViewMatchers.withText(R.string.home_title))
 				.check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void givenInvalidPin_whenWeSubmit_thenPinInvalidErrorMessageShouldShown() throws Exception {
+		// Given
+		onView(ViewMatchers.withId(R.id.input_pin))
+				.perform(typeText("123455"))
+				.perform(closeSoftKeyboard());
+		// When
+		onView(ViewMatchers.withId(R.id.btn_submit))
+				.perform(click());
+		// Then
+		onView(ViewMatchers.withId(R.id.input_layout_pin))
+				.check(matches(withError(getString(R.string.pin_error_invalid))));
 	}
 
 	@Test

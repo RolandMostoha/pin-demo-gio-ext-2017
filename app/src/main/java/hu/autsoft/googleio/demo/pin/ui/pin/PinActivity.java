@@ -1,4 +1,4 @@
-package hu.autsoft.googleio.demo.pin;
+package hu.autsoft.googleio.demo.pin.ui.pin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import hu.autsoft.googleio.demo.pin.main.HomeActivity;
+
+import hu.autsoft.googleio.demo.pin.R;
+import hu.autsoft.googleio.demo.pin.ui.home.HomeActivity;
+import hu.autsoft.googleio.demo.pin.network.AuthenticationService;
 
 public class PinActivity extends AppCompatActivity {
 
@@ -55,15 +58,19 @@ public class PinActivity extends AppCompatActivity {
 	}
 
 	private boolean isPinValid() {
-		boolean isPinValid = true;
 		if (inputPin.getText().toString() == null || inputPin.getText().toString().isEmpty()) {
-			isPinValid = false;
 			inputLayoutPin.setError(getString(R.string.pin_error_empty));
+			return false;
 		} else if (inputPin.getText().toString().length() != 6) {
-			isPinValid = false;
 			inputLayoutPin.setError(getString(R.string.pin_error_length));
+			return false;
 		}
-		return isPinValid;
+		AuthenticationService service = new AuthenticationService();
+		if (!service.isPinValid(inputPin.getText().toString())) {
+			inputLayoutPin.setError(getString(R.string.pin_error_invalid));
+			return false;
+		}
+		return true;
 	}
 
 	private void savePin() {

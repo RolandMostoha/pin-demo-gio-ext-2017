@@ -6,4 +6,5 @@
 	<string name="pin_error_length">PIN length should be 6 character</string>
 
     <string name="home_title">Home</string>
+	<string name="pin_error_invalid">Invalid PIN!</string>
 </resources>
