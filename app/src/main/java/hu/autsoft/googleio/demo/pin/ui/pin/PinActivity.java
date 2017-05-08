@@ -1,9 +1,7 @@
 package hu.autsoft.googleio.demo.pin.ui.pin;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +10,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import hu.autsoft.googleio.demo.pin.Injection;
 import hu.autsoft.googleio.demo.pin.R;
+import hu.autsoft.googleio.demo.pin.network.AuthenticationApi;
+import hu.autsoft.googleio.demo.pin.preferences.PreferenceApi;
 import hu.autsoft.googleio.demo.pin.ui.home.HomeActivity;
-import hu.autsoft.googleio.demo.pin.network.AuthenticationService;
 
 public class PinActivity extends AppCompatActivity {
 
@@ -66,7 +66,7 @@ public class PinActivity extends AppCompatActivity {
 			inputLayoutPin.setError(getString(R.string.pin_error_length));
 			return false;
 		}
-		AuthenticationService service = new AuthenticationService();
+		AuthenticationApi service = Injection.provideAuthenticationApi();
 		if (!service.isPinValid(inputPin.getText().toString())) {
 			inputLayoutPin.setError(getString(R.string.pin_error_invalid));
 			return false;
@@ -75,10 +75,9 @@ public class PinActivity extends AppCompatActivity {
 	}
 
 	private void savePin() {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		preferences.edit()
-				.putString(PREFERENCE_KEY_PIN, inputPin.getText().toString())
-				.apply();
+		PreferenceApi preferenceApi = Injection.providePreferenceApi();
+		preferenceApi.open(this);
+		preferenceApi.saveString(PREFERENCE_KEY_PIN, inputPin.getText().toString());
 	}
 
 	private void navigateToMainActivity() {

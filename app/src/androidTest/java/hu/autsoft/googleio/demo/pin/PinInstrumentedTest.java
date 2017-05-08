@@ -19,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import hu.autsoft.googleio.demo.pin.preferences.PreferenceApi;
 import hu.autsoft.googleio.demo.pin.ui.pin.PinActivity;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -35,18 +36,19 @@ public class PinInstrumentedTest {
 	@Rule
 	public ActivityTestRule<PinActivity> mActivityRule = new ActivityTestRule<>(PinActivity.class);
 
-	private SharedPreferences preferences;
+	private PreferenceApi preferences;
 
 	@Before
 	public void setUp() throws Exception {
 		Context context = getInstrumentation().getTargetContext();
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		preferences.edit().clear().apply();
+		preferences = Injection.providePreferenceApi();
+		preferences.open(context);
+		preferences.clear();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		preferences.edit().clear().apply();
+		preferences.clear();
 	}
 
 	@Test
