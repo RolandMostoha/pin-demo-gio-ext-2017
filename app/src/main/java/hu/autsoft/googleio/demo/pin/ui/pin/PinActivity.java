@@ -1,22 +1,20 @@
 package hu.autsoft.googleio.demo.pin.ui.pin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
 import hu.autsoft.googleio.demo.pin.Injection;
 import hu.autsoft.googleio.demo.pin.R;
-import hu.autsoft.googleio.demo.pin.network.AuthenticationApi;
-import hu.autsoft.googleio.demo.pin.preferences.PreferenceApi;
 import hu.autsoft.googleio.demo.pin.ui.home.HomeActivity;
 
-public class PinActivity extends AppCompatActivity {
+public class PinActivity extends AppCompatActivity implements PinView {
 
 	public static final String PREFERENCE_KEY_PIN = "PREFERENCE_KEY_PIN";
 
@@ -24,6 +22,7 @@ public class PinActivity extends AppCompatActivity {
 	private TextInputLayout inputLayoutPin;
 	private EditText inputPin;
 	private FloatingActionButton buttonSubmit;
+	private PinPresenter pinPresenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +31,7 @@ public class PinActivity extends AppCompatActivity {
 
 		initViewReferences();
 		initViews();
+		pinPresenter = new PinPresenter(this, Injection.provideAuthenticationApi(), Injection.providePreferenceApi());
 	}
 
 	private void initViewReferences() {
@@ -46,42 +46,23 @@ public class PinActivity extends AppCompatActivity {
 		buttonSubmit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				submitPin();
+				pinPresenter.submitPin(inputPin.getText().toString());
 			}
 		});
 	}
 
-	private void submitPin() {
-		if (isPinValid()) {
-			savePin();
-			navigateToMainActivity();
-		}
+	@Override
+	public void showPinErrorMessage(final int resourceId) {
+		inputLayoutPin.setError(getString(resourceId));
 	}
 
-	private boolean isPinValid() {
-		if (TextUtils.isEmpty(inputPin.getText().toString())) {
-			inputLayoutPin.setError(getString(R.string.pin_error_empty));
-			return false;
-		} else if (inputPin.getText().toString().length() != 6) {
-			inputLayoutPin.setError(getString(R.string.pin_error_length));
-			return false;
-		}
-		AuthenticationApi service = Injection.provideAuthenticationApi();
-		if (!service.isPinValid(inputPin.getText().toString())) {
-			inputLayoutPin.setError(getString(R.string.pin_error_invalid));
-			return false;
-		}
-		return true;
-	}
-
-	private void savePin() {
-		PreferenceApi preferenceApi = Injection.providePreferenceApi();
-		preferenceApi.open(this);
-		preferenceApi.saveString(PREFERENCE_KEY_PIN, inputPin.getText().toString());
-	}
-
-	private void navigateToMainActivity() {
+	@Override
+	public void navigateToMainActivity() {
 		startActivity(new Intent(this, HomeActivity.class));
 	}
 
+	@Override
+	public Context provideContext() {
+		return this;
+	}
 }
