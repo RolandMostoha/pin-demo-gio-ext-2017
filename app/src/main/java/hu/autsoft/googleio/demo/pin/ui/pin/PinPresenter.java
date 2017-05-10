@@ -4,19 +4,19 @@ import hu.autsoft.googleio.demo.pin.R;
 import hu.autsoft.googleio.demo.pin.network.AuthenticationApi;
 import hu.autsoft.googleio.demo.pin.preferences.PreferenceApi;
 
-class PinPresenter {
+public class PinPresenter {
 
 	private PinView pinView;
 	private AuthenticationApi authenticationApi;
 	private PreferenceApi preferenceApi;
 
-	PinPresenter(PinView pinView, AuthenticationApi authenticationApi, PreferenceApi preferenceApi) {
+	public PinPresenter(PinView pinView, AuthenticationApi authenticationApi, PreferenceApi preferenceApi) {
 		this.pinView = pinView;
 		this.authenticationApi = authenticationApi;
 		this.preferenceApi = preferenceApi;
 	}
 
-	void submitPin(final String pin) {
+	public void submitPin(final String pin) {
 		if (isPinValid(pin)) {
 			savePin(pin);
 			navigateToMainActivity();

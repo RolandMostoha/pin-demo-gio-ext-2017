@@ -1,4 +1,4 @@
-package hu.autsoft.googleio.demo.pin.ui.pin;
+package hu.autsoft.googleio.demo.pin.test;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +10,9 @@ import hu.autsoft.googleio.demo.pin.Injection;
 import hu.autsoft.googleio.demo.pin.R;
 import hu.autsoft.googleio.demo.pin.network.AuthenticationApi;
 import hu.autsoft.googleio.demo.pin.preferences.PreferenceApi;
+import hu.autsoft.googleio.demo.pin.ui.pin.PinActivity;
+import hu.autsoft.googleio.demo.pin.ui.pin.PinPresenter;
+import hu.autsoft.googleio.demo.pin.ui.pin.PinView;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
