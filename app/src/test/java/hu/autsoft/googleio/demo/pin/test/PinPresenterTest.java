@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.function.Executable;
 
+import android.support.annotation.StringRes;
+
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -42,19 +44,20 @@ public class PinPresenterTest {
 	}
 
 	@TestFactory
-	@DisplayName("Given invalid PIN codes, when we submit them, then proper error messages should shown")
+	@DisplayName("Invalid PIN tests")
 	Collection<DynamicTest> givenInvalidPins_WhenWeSubmitThem_ThenProperErrorMessagesShouldShown() {
 		Set<DynamicTest> tests = new LinkedHashSet<>();
-		tests.add(createInvalidPinTest("", R.string.pin_error_empty));
-		tests.add(createInvalidPinTest("123", R.string.pin_error_length));
-		tests.add(createInvalidPinTest("123455", R.string.pin_error_invalid));
-		tests.add(createInvalidPinTest("1234567", R.string.pin_error_length));
+		tests.add(createInvalidPinTest("", R.string.pin_error_empty, "empty"));
+		tests.add(createInvalidPinTest("123", R.string.pin_error_length, "short"));
+		tests.add(createInvalidPinTest("123455", R.string.pin_error_invalid, "long"));
+		tests.add(createInvalidPinTest("1234567", R.string.pin_error_length, "invalid"));
 		return tests;
 	}
 
-	private DynamicTest createInvalidPinTest(final String pin, final int resourceId) {
+	private DynamicTest createInvalidPinTest(final String pin, @StringRes final int expectedResourceId,
+			final String inputDescription) {
 		String displayName = String.format(Locale.getDefault(),
-				"Given %s input, when we submit it, then the proper error message should shown", pin);
+				"Given %s input, when we submit it, then the proper error message should shown", inputDescription);
 		return dynamicTest(displayName, new Executable() {
 			@Override
 			public void execute() throws Throwable {
@@ -64,7 +67,7 @@ public class PinPresenterTest {
 				// When
 				pinPresenter.submitPin(pin);
 				// Then
-				verify(view).showPinErrorMessage(resourceId);
+				verify(view).showPinErrorMessage(expectedResourceId);
 			}
 		});
 	}
