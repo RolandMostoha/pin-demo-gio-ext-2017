@@ -8,4 +8,6 @@ I've separated the different states of the application by branches to follow the
 3. [Step 2](https://github.com/RolandMostoha/pin-demo/tree/step-2-MVP): Decoupling Android, MVP, Unit tests
 4. [Step 3](https://github.com/RolandMostoha/pin-demo/tree/step-3-JUnit5): Upgrade to JUnit 5
 
-<img src="https://github.com/RolandMostoha/pin-demo/blob/master/assets/screenshot_pin_input.png" width="350">
+The application:
+
+<img src="https://github.com/RolandMostoha/pin-demo/blob/master/assets/screenshot_pin_input.png" width="300">
