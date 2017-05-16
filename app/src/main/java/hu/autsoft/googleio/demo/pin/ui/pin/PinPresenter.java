@@ -10,7 +10,7 @@ public class PinPresenter {
 	private AuthenticationApi authenticationApi;
 	private PreferenceApi preferenceApi;
 
-public	PinPresenter(PinView pinView, AuthenticationApi authenticationApi, PreferenceApi preferenceApi) {
+	public PinPresenter(PinView pinView, AuthenticationApi authenticationApi, PreferenceApi preferenceApi) {
 		this.pinView = pinView;
 		this.authenticationApi = authenticationApi;
 		this.preferenceApi = preferenceApi;
