@@ -17,7 +17,7 @@ public class DefaultPreferences implements PreferenceApi {
 
 	@Override
 	public void saveString(final String key, final String value) {
-		Objects.requireNonNull(preferences, "You should open the Context first");
+		ensurePreferenceServiceIsOpen();
 		preferences.edit()
 				.putString(key, value)
 				.apply();
@@ -25,7 +25,7 @@ public class DefaultPreferences implements PreferenceApi {
 
 	@Override
 	public String getString(final String key, final String defaultValue) {
-		Objects.requireNonNull(preferences, "You should open the Context first");
+		ensurePreferenceServiceIsOpen();
 		if (preferences.contains(key)) {
 			return preferences.getString(key, defaultValue);
 		}
@@ -34,7 +34,11 @@ public class DefaultPreferences implements PreferenceApi {
 
 	@Override
 	public void clear() {
-		Objects.requireNonNull(preferences, "You should open the Context first");
+		ensurePreferenceServiceIsOpen();
 		preferences.edit().clear().apply();
+	}
+
+	private void ensurePreferenceServiceIsOpen() {
+		Objects.requireNonNull(preferences, "You should open the Context first");
 	}
 }

@@ -1,8 +1,9 @@
 package hu.autsoft.googleio.demo.pin.network;
 
 /**
- * The service represents a PIN validator backend service. In real project there should be a valid network communication
- * request.
+ * The service represents a PIN validator backend service. In real project there should be a valid network
+ * communication request. This call runs on the UI thread. In production environment we should move this to background
+ * thread and notify via callback.
  */
 public class DefaultAuthenticationService implements AuthenticationApi {
 
