@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -58,7 +59,7 @@ public class PinActivity extends AppCompatActivity {
 	}
 
 	private boolean isPinValid() {
-		if (inputPin.getText().toString() == null || inputPin.getText().toString().isEmpty()) {
+		if (TextUtils.isEmpty(inputPin.getText().toString())) {
 			inputLayoutPin.setError(getString(R.string.pin_error_empty));
 			return false;
 		} else if (inputPin.getText().toString().length() != 6) {

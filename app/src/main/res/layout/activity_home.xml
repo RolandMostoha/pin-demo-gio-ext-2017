@@ -26,10 +26,9 @@
             android:gravity="center">
 
         <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_done"
-                android:tint="@color/colorAccent"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/autsoft_logo" />
 
     </LinearLayout>
 
