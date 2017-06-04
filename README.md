@@ -4,6 +4,10 @@ Demo project for the Effective Automated Testing presentation at the [Google I/O
 The presentation can be found here:
 [Effective Automated Testing](https://github.com/RolandMostoha/pin-demo/blob/master/assets/Roland_Mostoha_Effective_Automated_Testing.pdf)
 
+The recorded video can be found here:
+[Effective Automated Testing Video Record](https://www.youtube.com/watch?v=T639lKUykgE)
+The speech is in Hungarian for the local audience.
+
 I've separated the different states of the application by branches to follow the presentation's topics:
 
 1. [Master](https://github.com/RolandMostoha/pin-demo/tree/master): Initial state with UI tests
